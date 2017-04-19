@@ -18,6 +18,9 @@ http.createServer(function (request, response) {
     } else if (pathname == "/jquery.min.js") {
         script = fs.readFileSync("node_modules/jquery/dist/jquery.min.js", "utf8");
         response.write(script);
+    } else if (pathname == "/style.css"){
+        style = fs.readFileSync("style.css", "utf8");
+        response.write(style);
     }
 
 

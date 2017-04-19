@@ -4,26 +4,17 @@
   		<title>Mon Mini Paint</title>
   		<meta charset="utf-8" />
   		<meta name="viewport" content="width=device-width" />
-  		<link rel="stylesheet" href="style.css" type="text/css" />
-  		<script type="text/javascript" src="jquery.min.js"></script>
-      <script type="text/javascript" src="script.js"></script>
+  		<style type="text/css">
+        canvas{
+        		border: 2px solid black;
+        		background-color: lightgrey;
+        		cursor: crosshair;
+        }
+      </style>
+  		<!-- <script type="text/javascript" src="jquery.min.js"></script> -->
     </head>
     <body>
-
-		<!-- <ul id="couleurs">
-			<li><a href="#" data-couleur="#000000" class="actif">Noir</a></li>
-			<li><a href="#" data-couleur="#ff0000">Rouge</a></li>
-			<li><a href="#" data-couleur="yellow">Jaune</a></li>
-			<li><a href="#" data-couleur="green">Vert</a></li>
-			<li><a href="#" data-couleur="blue">Bleu</a></li>
-		</ul> -->
-
-		<!-- <form id="largeurs_pinceau">
-			<label for="largeur_pinceau">Largeur du pinceau :</label>
-			<input id="largeur_pinceau" type="range" min="2" max="50" value="5" />
-			<br/>
-			<output id="output">5 pixels</output>
-
-		</form> -->
+      <canvas id="signature" width="800" height="600"></canvas>
     </body>
+    <script type="text/javascript" src="script.js"></script>
 </html>

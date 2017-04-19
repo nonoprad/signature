@@ -6,93 +6,84 @@ var painting = false; // Suis-je en train de dessiner ?
 var started = false; // Ai-je commencé à dessiner ?
 var canvas, context, cursorX, cursorY; // Variables concernant le canvas définies plus tard
 
-$(document).ready(function() {
 
+
+function init(){
 	// -----------------------
 	// Ajout du canvas :
 	// -----------------------
 
-	var largeur_canvas = $(window).width() - 20;
-	var hauteur_canvas = $(window).height() - 180;
+	var largeur_canvas = window.innerWidth - 20;
+	var hauteur_canvas = window.innerHeight - 180;
 
-	$("body").prepend('<canvas id="canvas" width="' + largeur_canvas + '" height="' + hauteur_canvas + '"></canvas>');
 
 	// -----------------------
 	// Définition des variables :
 	// -----------------------
 
 	// Canvas :
-	canvas = $("#canvas");
-	context = canvas[0].getContext('2d');
+	var canvas = getCanvas();
+	var context = getContext();
 
 	// Trait arrondi :
 	context.lineJoin = 'round';
 	context.lineCap = 'round';
 
+
+
 	// Doigt enfoncé sur le canvas, je dessine :
-	canvas.bind('touchstart', function(e) {
+	canvas.addEventListener('touchstart', function(e){
 		moveStart(e, true);
-	});
+	}, false);
 
 	// Relachement du doigt sur tout le document, j'arrête de dessiner :
-	$(this).bind('touchend', function() {
+	canvas.addEventListener('touchend', function(){
 		moveEnd();
 	});
 
 	// Mouvement du doigt sur le canvas :
-	canvas.bind('touchmove', function(e) {
+	canvas.addEventListener('touchmove', function(e) {
 		move(e, true, this);
 	});
 
 	// Click souris enfoncé sur le canvas, je dessine :
-	canvas.mousedown(function(e) {
+	canvas.addEventListener('mousedown', function(e) {
 		moveStart(e, false);
 	});
 
 	// Relachement du Click sur tout le document, j'arrête de dessiner :
-	$(this).mouseup(function() {
+	canvas.addEventListener('mouseup', function() {
 		moveEnd();
 	});
 
 	// Mouvement de la souris sur le canvas :
-	canvas.mousemove(function(e) {
+	canvas.addEventListener('mousemove', function(e) {
 		move(e, false, this);
 	});
 
 
 
-	// Pour chaque carré de couleur :
-	$("#couleurs a").each(function() {
-		// Je lui attribut une couleur de fond :
-		$(this).css("background", $(this).attr("data-couleur"));
 
-		// Et au click :
-		$(this).click(function() {
-			// Je change la couleur du pinceau :
-			color = $(this).attr("data-couleur");
+};
 
-			// Et les classes CSS :
-			$("#couleurs a").removeAttr("class", "");
-			$(this).attr("class", "actif");
+window.init = init();
 
-			return false;
-		});
-	});
 
-	// Largeur du pinceau :
-	$("#largeurs_pinceau input").change(function() {
-		if (!isNaN($(this).val())) {
-			width_brush = $(this).val();
-			$("#output").html($(this).val() + " pixels");
-		}
-	});
 
-});
+
+function getContext(){
+  return getCanvas().getContext('2d');
+}
+function getCanvas(){
+    return document.getElementById("signature");
+}
 
 
 
 // Fonction qui dessine une ligne :
 function drawLine() {
+	var canvas = getCanvas();
+	var context = getContext();
 	// Si c'est le début, j'initialise
 	if (!started) {
 		// Je place mon curseur pour la première fois :
@@ -114,11 +105,6 @@ function clear_canvas() {
 	context.clearRect(0,0, canvas.width(), canvas.height());
 }
 
-
-
-
-
-
 // -----------------------
 // Fonctions Event :
 // -----------------------
@@ -129,14 +115,13 @@ function move(e, mobile, obj) {
 	if (painting) {
 		if (mobile) {
 			// Event mobile :
-			var ev = e.originalEvent;
 			e.preventDefault();
-
 			// Set Coordonnées du doigt :
 			// cursorX = (ev.pageX - obj.offsetLeft); // 10 = décalage du curseur
 			// cursorY = (ev.pageY - obj.offsetTop);
-			cursorX = (ev.targetTouches[0].pageX - obj.offsetLeft); // 10 = décalage du curseur
-			cursorY = (ev.targetTouches[0].pageY - obj.offsetTop);
+
+			cursorX = (e.targetTouches[0].screenX - obj.offsetLeft); // 10 = décalage du curseur
+			cursorY = (e.targetTouches[0].screenY - obj.offsetTop);
 		}
 		else {
 			// Set Coordonnées de la souris :
@@ -162,12 +147,11 @@ function moveStart(e, mobile) {
 	// Coordonnées de la souris :
 	if (mobile) {
 		// Event mobile :
-		var ev = e.originalEvent;
 		e.preventDefault();
 
 		// Set Coordonnées du doigt :
-		cursorX = (ev.pageX - obj.offsetLeft); // 10 = décalage du curseur
-		cursorY = (ev.pageY - obj.offsetTop);
+		cursorX = (e.targetTouches[0].screenX - this.offsetLeft); // 10 = décalage du curseur
+		cursorY = (e.targetTouches[0].screenY - this.offsetTop);
 	}
 	else {
 		// Set Coordonnées de la souris :
