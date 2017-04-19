@@ -63,8 +63,11 @@ function init(){
 
 
 
-
 };
+
+
+
+
 
 window.init = init();
 
@@ -79,6 +82,12 @@ function getCanvas(){
 }
 
 
+function exportPicture(){
+ 	var dataUrl = getCanvas().toDataURL("image/png");
+
+	document.getElementById("final-signature").style = 'background-image:url('+dataUrl+');';
+
+}
 
 // Fonction qui dessine une ligne :
 function drawLine() {

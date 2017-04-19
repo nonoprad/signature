@@ -10,11 +10,24 @@
         		background-color: lightgrey;
         		cursor: crosshair;
         }
+        #final-signature{
+          height:600px;
+          width:800px;
+          background-color: red;
+        }
       </style>
   		<!-- <script type="text/javascript" src="jquery.min.js"></script> -->
     </head>
     <body>
       <canvas id="signature" width="800" height="600"></canvas>
+      <br />
+
+      <input type="submit" onclick="exportPicture()" value="Signature" />
+
+
+      <br />
+      <div id="final-signature">
+      </div>
     </body>
     <script type="text/javascript" src="script.js"></script>
 </html>
